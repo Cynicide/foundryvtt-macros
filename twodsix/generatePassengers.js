@@ -81,6 +81,12 @@ const myContent = `
             </li>
     </div>
     <br>
+    <div>
+        <li class="flexrow center-aligned">   
+            <div class="input-description">Generate Exciting Passengers?:</div>
+            <input class="input-box" id="toggleExcitingPassengers" type="checkbox" value=false />  
+        </li>
+    </div>
 `;
 
 // Create Dialog Box
@@ -157,6 +163,8 @@ async function generatePassengers(html) {
 
     passengerEffect.amberZone.Effect = html[0].querySelector("input#amberZone").checked;
     passengerEffect.redZone.Effect = html[0].querySelector("input#redZone").checked;
+
+    const toggleExcitingPassengers = html[0].querySelector("input#toggleExcitingPassengers").checked; 
 
     // Define Regexes for testing input
     const starportRegex = /[ABCDEX]/;
@@ -286,33 +294,67 @@ async function generatePassengers(html) {
     let tableResult = game.tables.getName("Passengers").getResultsForRoll(tableLookupValue)[0].text
 
     // Generate Passengers
-    passengerResult = await getPassengerResults(tableResult)
-    
-    // Create Output
-    let messageTable =  `<b><h2>Passengers</h2></b><p>
-                        Skill Roll Effect: ${passengerEffect.skillRollEffect.Effect} (${passengerEffect.skillRollEffect.Value})
-                        <br>Highest Steward Skill: ${passengerEffect.highestStewardSkill.Effect} (${passengerEffect.highestStewardSkill.Value})
-                        <br>High Passengers: ${passengerEffect.highPassengers.Effect} (${passengerEffect.highPassengers.Value})
-                        <br>Low Passengers: ${passengerEffect.lowPassengers.Effect} (${passengerEffect.lowPassengers.Value})
-                        <br>Current World Population: ${passengerEffect.currentWorldPopulation.Effect} (${passengerEffect.currentWorldPopulation.Value})
-                        <br>Curret Starport Size: ${passengerEffect.currentStarport.Effect} (${passengerEffect.currentStarport.Value})
-                        <br>Destination World Population: ${passengerEffect.destinationWorldPopulation.Effect} (${passengerEffect.destinationWorldPopulation.Value})
-                        <br>Destination Starport Size: ${passengerEffect.destinationStarport.Effect} (${passengerEffect.destinationStarport.Value})
-                        <br>Amber Zone: ${passengerEffect.amberZone.Effect} (${passengerEffect.amberZone.Value})
-                        <br>Red Zone: ${passengerEffect.redZone.Effect} (${passengerEffect.redZone.Value})
-                        <p>Passenger Table Effect: ${totalPassengerEffect}
-                        <br>Table Result: ${tableResult}
-                        <p><b>Total Passengers: ${passengerResult} </b>
+    let passengerResult = await getPassengerResults(tableResult)
+
+    // In order to hide and show divs with expand this HTML must be in the message flavor property
+    let messageFlavor = `
+                        <b><h2>Passengers</h2></b><p>
+                            
+                        <section class="card-buttons">
+                            <button data-action="expand" data-tooltip="${game.i18n.localize("TWODSIX.Rolls.ToggleDetails")}">
+                                View Modifiers
+                            </button>
+                        </section>
+                        <section class="dice-chattip" style="display: none">
+                            <br>Skill Roll Effect: ${passengerEffect.skillRollEffect.Effect} (${passengerEffect.skillRollEffect.Value})
+                            <br>Highest Steward Skill: ${passengerEffect.highestStewardSkill.Effect} (${passengerEffect.highestStewardSkill.Value})
+                            <br>High Passengers: ${passengerEffect.highPassengers.Effect} (${passengerEffect.highPassengers.Value})
+                            <br>Low Passengers: ${passengerEffect.lowPassengers.Effect} (${passengerEffect.lowPassengers.Value})
+                            <br>Current World Population: ${passengerEffect.currentWorldPopulation.Effect} (${passengerEffect.currentWorldPopulation.Value})
+                            <br>Curret Starport Size: ${passengerEffect.currentStarport.Effect} (${passengerEffect.currentStarport.Value})
+                            <br>Destination World Population: ${passengerEffect.destinationWorldPopulation.Effect} (${passengerEffect.destinationWorldPopulation.Value})
+                            <br>Destination Starport Size: ${passengerEffect.destinationStarport.Effect} (${passengerEffect.destinationStarport.Value})
+                            <br>Amber Zone: ${passengerEffect.amberZone.Effect} (${passengerEffect.amberZone.Value})
+                            <br>Red Zone: ${passengerEffect.redZone.Effect} (${passengerEffect.redZone.Value})
+                        </section>`
+
+    // Create Content Output
+    let messageTable =  `<section>
+                                <p>Passenger Table Effect: ${totalPassengerEffect}
+                                <br>Table Result: ${tableResult}
+                                <p><b>Total Passengers: ${passengerResult} </b>
+                            </section>
                         `;                       
+    
+    // Generate Exciting Passengers
+    if (toggleExcitingPassengers === true) {
+        let passengerArray = await generateExcitingPassengers(passengerResult)
+
+        // Dedupe array
+        let cleanedArray = [...new Set(passengerArray)] 
+
+        // Append to Chat Output
+        messageTable = messageTable + ` <section>
+        <p>Exciting Passengers: <ul>`;
+
+        for (var i = 0; i < cleanedArray.length; i++) {
+            messageTable = messageTable + `<li> ${cleanedArray[i]} </li>`;
+        }
+
+        messageTable = messageTable + `</ul></section>`
+    }
 
     // Create Chat Message
     let chatData = {
         user: game.user._id,
+        type: CONST.CHAT_MESSAGE_TYPES.ROLL,
         speaker: ChatMessage.getSpeaker(),
         content: messageTable,
+        flavor: messageFlavor,
         whisper: game.users.filter(u => u.isGM).map(u => u._id)
     };
-    ChatMessage.create(chatData, {});
+    message = await ChatMessage.create(chatData, {});
+    console.log(message)
 }
 
 function calculatePopulationEffect(population) {
@@ -404,6 +446,16 @@ async function getPassengerResults(tableResult) {
     numberOfDice = tableResult.replace('D', '');
     const passengerRoll = await new Roll(`${numberOfDice}d6`).roll();
 
-    console.log(passengerRoll)
     return passengerRoll.result
+}
+async function generateExcitingPassengers(count) {
+    table = game.tables.getName("Exciting Passengers")
+    let passengers = []
+
+    for (i = 1; i <= count; i++) {
+        let roll = await table.roll();
+        passengers.push(roll.results[0].text)
+    }
+
+    return passengers;
 }
