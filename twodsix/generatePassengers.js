@@ -26,106 +26,112 @@ const dialogContent = `
 
         .outlined {
             border: 1px solid;
-            padding: 2px;
+            padding: 5px;
             margin: 1px;
         }
         .center-align-text {
             text-align: center;
         }
 
+        .container {
+            padding: 5px;
+        }
+
     </style>
 
-    <div class="outlined">
-        <b>Passenger Type: </b>
-        <li class="flexrow center-aligned">
-            <div class="flexcolumn center-aligned">
-                <div class="center-align-text">High</div>
-                <div class="center-align-text"><input name="passengerType" type="radio"  value="high"/></div>
-            </div>
-            <div class="flexcolumn center-aligned">
-                <div class="center-align-text">Middle</div>
-                <div class="center-align-text"><input name="passengerType" type="radio"  value="middle"/></div>
-            </div>
-            <div class="flexcolumn center-aligned">
-                <div class="center-align-text">Basic</div>
-                <div class="center-align-text"><input name="passengerType" type="radio"  value="basic"/></div>
-            </div>
-            <div class="flexcolumn center-aligned">
-                <div class="center-align-text">Low</div>
-                <div class="center-align-text"><input name="passengerType" type="radio" checked="checked" value="low"/></div>
-            </div
-        </li>
-    </div>
+    <div class="container">
+        <div class="outlined">
+            <b>Passenger Type: </b>
+            <li class="flexrow center-aligned">
+                <div class="flexcolumn center-aligned">
+                    <div class="center-align-text">High</div>
+                    <div class="center-align-text"><input name="passengerType" type="radio"  value="high"/></div>
+                </div>
+                <div class="flexcolumn center-aligned">
+                    <div class="center-align-text">Middle</div>
+                    <div class="center-align-text"><input name="passengerType" type="radio"  value="middle"/></div>
+                </div>
+                <div class="flexcolumn center-aligned">
+                    <div class="center-align-text">Basic</div>
+                    <div class="center-align-text"><input name="passengerType" type="radio"  value="basic"/></div>
+                </div>
+                <div class="flexcolumn center-aligned">
+                    <div class="center-align-text">Low</div>
+                    <div class="center-align-text"><input name="passengerType" type="radio" checked="checked" value="low"/></div>
+                </div
+            </li>
+        </div>
 
-    <div class="outlined">
-        <b>Skills</b>
-        <li class="flexrow center-aligned">
-            <div class="input-description">Skill Roll Effect (Broker/Carouse/Streetwise):</div>
-            <input class="input-box" id="skillRollEffect" type="number" value="0" />  
-        </li>
-        <li class="flexrow center-aligned">
-        <div class="input-description">Highest Steward Skill on Ship:</div>
-            <input class="input-box" id="highestStewardSkill" type="number" value="0" />
-        </li>
-    </div>
+        <div class="outlined">
+            <b>Skills</b>
+            <li class="flexrow center-aligned">
+                <div class="input-description">Skill Roll Effect (Broker/Carouse/Streetwise):</div>
+                <input class="input-box" id="skillRollEffect" type="number" value="0" />  
+            </li>
+            <li class="flexrow center-aligned">
+            <div class="input-description">Highest Steward Skill on Ship:</div>
+                <input class="input-box" id="highestStewardSkill" type="number" value="0" />
+            </li>
+        </div>
 
-    <div class="outlined">
-        <b>Source World</b>
-        <li class="flexrow center-aligned">
-            <div class="input-description">Source World Population:</div>
-            <input class="input-box" id="sourceWorldPopulation" type="text" value="0" />
-        </li>
-        <li class="flexrow center-aligned"> 
-        <div class="input-description">Source Starport Class:</div>
-            <input class="input-box" id="sourceStarport" type="text" value="C" />
-        </li>
-        <li class="flexrow center-aligned">
+        <div class="outlined">
+            <b>Source World</b>
+            <li class="flexrow center-aligned">
+                <div class="input-description">Source World Population:</div>
+                <input class="input-box" id="sourceWorldPopulation" type="text" value="0" />
+            </li>
+            <li class="flexrow center-aligned"> 
+            <div class="input-description">Source Starport Class:</div>
+                <input class="input-box" id="sourceStarport" type="text" value="C" />
+            </li>
+            <li class="flexrow center-aligned">
+                <div class="flexcolumn center-aligned">
+                    <div class="center-align-text">Amber Zone</div>
+                    <div class="center-align-text"><input name="sourceZoneType" type="radio"  value="Amber"/></div>
+                </div>
+                <div class="flexcolumn center-aligned">
+                    <div class="center-align-text">Red Zone</div>
+                    <div class="center-align-text"><input name="sourceZoneType" type="radio"  value="Red"/></div>
+                </div>
+                <div class="flexcolumn center-aligned">
+                    <div class="center-align-text">None</div>
+                    <div class="center-align-text"><input name="sourceZoneType" type="radio" checked="checked" value="None"/></div>
+                </div>            
+            </li>
+        </div>
+
+        <div class="outlined">
+            <b>Destination World</b>
+            <li class="flexrow center-aligned">
+                <div class="input-description">Destination World Population:</div>
+                <input class="input-box" id="destinationWorldPopulation" type="text" value="0" />
+            </li>
+            <li class="flexrow center-aligned">
+                <div class="input-description">Destination Starport Class:</div>
+                <input class="input-box" id="destinationStarport" type="text" value="C" />
+            </li>
+            <li class="flexrow center-aligned">
             <div class="flexcolumn center-aligned">
                 <div class="center-align-text">Amber Zone</div>
-                <div class="center-align-text"><input name="sourceZoneType" type="radio"  value="Amber"/></div>
+                <div class="center-align-text"><input name="destinationZoneType" type="radio"  value="Amber"/></div>
             </div>
             <div class="flexcolumn center-aligned">
                 <div class="center-align-text">Red Zone</div>
-                <div class="center-align-text"><input name="sourceZoneType" type="radio"  value="Red"/></div>
+                <div class="center-align-text"><input name="destinationZoneType" type="radio"  value="Red"/></div>
             </div>
             <div class="flexcolumn center-aligned">
                 <div class="center-align-text">None</div>
-                <div class="center-align-text"><input name="sourceZoneType" type="radio" checked="checked" value="None"/></div>
-            </div>            
+                <div class="center-align-text"><input name="destinationZoneType" type="radio" checked="checked" value="None"/></div>
+            </div>
         </li>
-    </div>
-
-    <div class="outlined">
-        <b>Destination World</b>
-        <li class="flexrow center-aligned">
-            <div class="input-description">Destination World Population:</div>
-            <input class="input-box" id="destinationWorldPopulation" type="text" value="0" />
-        </li>
-        <li class="flexrow center-aligned">
-            <div class="input-description">Destination Starport Class:</div>
-            <input class="input-box" id="destinationStarport" type="text" value="C" />
-        </li>
-        <li class="flexrow center-aligned">
-        <div class="flexcolumn center-aligned">
-            <div class="center-align-text">Amber Zone</div>
-            <div class="center-align-text"><input name="destinationZoneType" type="radio"  value="Amber"/></div>
         </div>
-        <div class="flexcolumn center-aligned">
-            <div class="center-align-text">Red Zone</div>
-            <div class="center-align-text"><input name="destinationZoneType" type="radio"  value="Red"/></div>
+        <div class="outlined">
+        <b>Configuration</b>
+            <li class="flexrow center-aligned">   
+                <div class="input-description">Generate Exciting Passengers?:</div>
+                <input class="input-box" id="toggleExcitingPassengers" type="checkbox" value=false />  
+            </li>
         </div>
-        <div class="flexcolumn center-aligned">
-            <div class="center-align-text">None</div>
-            <div class="center-align-text"><input name="destinationZoneType" type="radio" checked="checked" value="None"/></div>
-        </div>
-    </li>
-    </div>
-    <div class="outlined">
-    <b>Configuration</b>
-        <li class="flexrow center-aligned">   
-            <div class="input-description">Generate Exciting Passengers?:</div>
-            <input class="input-box" id="toggleExcitingPassengers" type="checkbox" value=false />  
-        </li>
     </div>
 `;
 
@@ -199,8 +205,6 @@ async function generatePassengers(html) {
     passengerEffect.destinationZoneType.Effect = String(html.find('input[name="destinationZoneType"]:checked').val()).toUpperCase();
 
     const toggleExcitingPassengers = html[0].querySelector("input#toggleExcitingPassengers").checked; 
-
-    console.log(passengerEffect);
 
     // Define Regexes for testing input
     const starportRegex = /[ABCDEX]/;
@@ -293,7 +297,6 @@ async function generatePassengers(html) {
     const tableLookupRoll = await new Roll(`2d6 + ${totalPassengerEffect}`).roll();
     let tableLookupValue = tableLookupRoll.total;
 
-    console.log(tableLookupValue);
 
     // Clamp Values to table bounds
     if (tableLookupValue < 1) {
@@ -491,9 +494,9 @@ function getPassengerTypeEffect(_passengerType) {
 function getZoneTypeEffect(_zoneType) {
     switch(_zoneType) {
         case "RED":
-            return -6;
+            return -4;
         case "AMBER":
-            return -2;
+            return 1;
         case "NONE":
             return 0;
         default:
